@@ -1,0 +1,50 @@
+#!/usr/bin/make -f
+# debian/rules file for libxalan2-java (uses cdbs)
+
+include /usr/share/cdbs/1/rules/debhelper.mk
+include /usr/share/cdbs/1/class/javahelper.mk
+include /usr/share/cdbs/1/class/ant.mk
+
+PACKAGE              := $(DEB_SOURCE_PACKAGE)
+VERSION              := $(DEB_UPSTREAM_VERSION)
+JAVA_HOME            := /usr/lib/jvm/default-java
+ANT_HOME             := /usr/share/ant
+
+ANT_OPTS := -Dgnu.java.awt.peer.gtk.Graphics=Graphics2D
+DEB_JARS := xml-apis xercesImpl bsf bcel cup regexp stylebook JLex
+
+DEB_ANT_CLEAN_TARGET := clean xsltc.clean
+DEB_ANT_BUILD_TARGET := jar xsltc.unbundledjar javadocs docs
+
+clean::
+	rm -f xdocs/sources/xalan/*DONE XSLTCDONE
+	rm -f lib/BCEL.jar lib/regexp.jar
+	mh_clean
+
+pre-build::
+	rm -f lib/BCEL.jar lib/regexp.jar
+	ln -s /usr/share/java/bcel.jar lib/BCEL.jar
+	ln -s /usr/share/java/regexp.jar lib/regexp.jar
+
+install/libxalan2-java::
+	mh_installpoms -p$(PACKAGE);
+	mh_installjar -p$(PACKAGE) -l --usj-name=xalan2 debian/xalan.pom build/xalan.jar
+	mh_installjar -p$(PACKAGE) -l debian/serializer.pom build/serializer.jar
+
+install/libxsltc-java::
+	install -m 644 build/xsltc.jar debian/libxsltc-java/usr/share/java/xsltc.jar
+
+install/libxalan2-java-doc::
+	# install the javadocs into api directory
+	install -d $(CURDIR)/debian/libxalan2-java-doc/usr/share/doc/libxalan2-java/api/
+	cp -a build/docs/apidocs/* $(CURDIR)/debian/libxalan2-java-doc/usr/share/doc/libxalan2-java/api/
+	# make lintian happy and remove zero-byte files
+	rm -Rf $(CURDIR)/samples/extensions/instantdb/tables
+
+get-orig-source:
+	-uscan --download-version $(DEB_UPSTREAM_VERSION) --force-download --rename --repack
+
+get-orig-pom:
+	wget -O debian/xalan.pom http://repository.sonatype.org/service/local/repositories/central/content/xalan/xalan/$(VERSION)/xalan-$(VERSION).pom
+	wget -O debian/serializer.pom http://repository.sonatype.org/service/local/repositories/central/content/xalan/serializer/$(VERSION)/serializer-$(VERSION).pom
+

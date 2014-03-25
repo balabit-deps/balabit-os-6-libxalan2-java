@@ -1,0 +1,195 @@
+--- a/build.xml
++++ b/build.xml
+@@ -80,10 +80,10 @@
+   <!-- Xalan Java directories -->  
+ <!--  <property name="bin.dir"                value="./bin"/> -->
+   <property name="build.dir"              value="./build"/> 
+-  <property name="lib.dir"                value="./lib"/>   
++  <property name="lib.dir"                value="/usr/share/java"/>   
+   <property name="samples.dir"            value="./samples"/>   
+   <property name="src.dir"                value="./src"/>  
+-  <property name="tools.dir"              value="./tools"/> 
++  <property name="tools.dir"              value="/usr/share/java"/> 
+   <property name="xdocs.dir"              value="./xdocs"/>
+     
+   <property name="apachexml.reldir"       value="org/apache/xml"/>
+@@ -98,19 +98,19 @@
+   <property name="xmlapis.jar"            value="${lib.dir}/${xmlapis.jar.name}"/>
+   <property name="parser.jar.name"        value="xercesImpl.jar"/>
+   <property name="parser.jar"             value="${lib.dir}/${parser.jar.name}"/>
+-  <property name="bcel.jar.name"          value="BCEL.jar"/>
++  <property name="bcel.jar.name"          value="bcel.jar"/>
+   <property name="bcel.jar"               value="${lib.dir}/${bcel.jar.name}"/>
+-  <property name="runtime.jar.name"       value="runtime.jar"/>
++  <property name="runtime.jar.name"       value="cup.jar"/>
+   <property name="runtime.jar"            value="${lib.dir}/${runtime.jar.name}"/>
+   <property name="regexp.jar.name"        value="regexp.jar"/>
+   <property name="regexp.jar"             value="${lib.dir}/${regexp.jar.name}"/>
+   
+   <!-- Jars need to build Xalan Java (Interpretive, Compiled, or both) or build the docs -->
+-  <property name="java_cup.jar.name"      value="java_cup.jar"/>
++  <property name="java_cup.jar.name"      value="cup.jar"/>
+   <property name="java_cup.jar"           value="${tools.dir}/${java_cup.jar.name}"/>
+   <property name="jlex.jar.name"          value="JLex.jar"/>
+   <property name="jlex.jar"               value="${tools.dir}/${jlex.jar.name}"/>  
+-  <property name="stylebook.jar.name"     value="stylebook-1.0-b3_xalan-2.jar"/>
++  <property name="stylebook.jar.name"     value="stylebook.jar"/>
+   <property name="stylebook.jar"          value="${tools.dir}/${stylebook.jar.name}"/>
+   <property name="doclet.jar.name"        value="xalan2jdoc.jar"/>
+   <property name="doclet.jar"             value="${tools.dir}/${doclet.jar.name}"/>
+@@ -354,11 +354,13 @@
+          puts the result in xdocs/sources/xalan for inclusion in the readme.xml -->      
+     <echo message="Transform commits.xml and put the result in ${xdocs.dir}"/>
+     <java fork="yes" classname="${xalan.cmdline.class}" >
++      <jvmarg value="-Djava.awt.headless=true"/>
+       <classpath refid="docs.class.path" />
+       <arg line="-in commits.xml -xsl ${xdocs.style}/stylesheets/done.xsl -out ${xdocs.DONE.file} -param xsltcdone ${xdocs.XSLTCDONE.file}"/>
+     </java>
+     <echo message="Generate Xalan-J 2.x design document"/>
+     <java fork="yes" classname="${doc.generator}" >
++      <jvmarg value="-Djava.awt.headless=true"/>
+       <classpath refid="docs.class.path" />
+       <arg line="loaderConfig=sbk:/style/loaderdesign.xml targetDirectory=./build/docs/design/
+                  ./xdocs/sources/xalandesign.xml ./xdocs/style"/>
+@@ -406,7 +408,9 @@
+       <exclude name="${xsltc.reldir}/**/*.java" />
+       <classpath refid="compile.class.path" />
+       <bootclasspath refid="xslt.boot.class.path" />
++      <!--
+       <sourcepath refid="compile.source.path" />
++      -->
+     </javac>
+     <!-- Copy needed properties, resource, etc. files to be put into .jar file -->
+     <copy todir="${build.classes}">
+@@ -475,6 +479,7 @@
+     <echo message="java_cup preparsing"/>
+     <java fork="yes" failonerror="true" 
+        classname="org.apache.xalan.xsltc.util.JavaCupRedirect" >
++      <jvmarg value="-Djava.awt.headless=true"/>
+       <classpath refid="xsltc.class.path" />
+       <!-- need to bootclasspath java_cup for JDKs that include JavaCupRedirect -->
+       <jvmarg value="-Xbootclasspath/p:${java_cup.jar}${path.separator}${runtime.jar}"/>
+@@ -493,8 +498,9 @@
+     has to be generated after sym.java, so order is important. -->
+     <echo message="JLex preparsing"/>
+     <java fork="yes" failonerror="true" classname="JLex.Main" >
++      <jvmarg value="-Djava.awt.headless=true"/>
+       <classpath refid="xsltc.class.path" />
+-      <arg line="-static ${src.dir}/${xsltc.reldir}/compiler/xpath.lex"/>
++      <arg line="${src.dir}/${xsltc.reldir}/compiler/xpath.lex"/>
+     </java>
+     <echo message="JLex move output file"/>
+     <move file="${src.dir}/${xsltc.reldir}/compiler/xpath.lex.java" tofile="${generated.xpathlexer}"/>
+@@ -588,6 +594,12 @@
+       <param name="param_jar_name" value="${runtime.jar.name}" />
+     </antcall>
+ 
++    <delete dir="${build.classes}">
++      <include name="java_cup/*.class" />
++      <include name="java_cup/anttask/**" />
++      <include name="java_cup/anttask" />
++    </delete>
++
+     <antcall target="xsltc.copy-deps-jar">
+       <param name="param_unless" value="xsltc.regexp_jar.not_needed" />
+       <param name="param_jar_name" value="${regexp.jar.name}" />
+@@ -958,6 +970,7 @@
+     <java fork="yes" 
+           classname="${doc.generator}" 
+           classpathref="docs.class.path" >
++      <jvmarg value="-Djava.awt.headless=true"/>
+        <arg line="targetDirectory=${build.docs} ${xdocs.book} ${xdocs.style}"/>
+     </java>	 
+   </target>
+@@ -1028,6 +1041,7 @@
+     <javadoc
+          additionalparam="-breakiterator"
+          destdir="${build.apidocs}"
++         maxmemory="512m"
+          public="true"
+          sourcepath="${src.dir}"
+          overview="${src.dir}/javadocOverview.html"
+@@ -1039,7 +1053,9 @@
+          doctitle="${Name-in-docs} ${impl.version}"
+          bottom="Copyright &#169; ${year} Apache XML Project. All Rights Reserved.">
+           <classpath refid="docs.class.path" />
++          <!--
+           <taglet name="xalan2jtaglet.XSLUsageTag" path="${taglet.jar}"/>
++          -->
+           <group title="Transformations API for XML (TrAX)" packages="javax.xml.transform*"/>
+           <group title="Java API for XML Parsing" packages="javax.xml.parsers"/>
+           <group title="Xalan Core"
+@@ -1394,6 +1410,7 @@
+     <java fork="yes" 
+           classname="${doc.generator}" 
+           classpathref="docs.class.path" >
++      <jvmarg value="-Djava.awt.headless=true"/>
+        <arg line="targetDirectory=${site.dir} ${site.book} ${xdocs.style}"/>
+     </java>
+ 
+@@ -1422,6 +1439,7 @@
+     <java fork="yes" 
+           classname="${doc.generator}" 
+           classpathref="docs.class.path" >
++      <jvmarg value="-Djava.awt.headless=true"/>
+        <arg line="targetDirectory=${xalan.apache.org.site.dir} ${xalan.apache.org.site.book} ${xdocs.style}"/>
+     </java>
+ 
+@@ -1474,6 +1492,7 @@
+     <java fork="yes" 
+           classname="${doc.generator}" 
+           classpathref="docs.class.path" >
++      <jvmarg value="-Djava.awt.headless=true"/>
+       <arg line="loaderConfig=sbk:/style/loaderdesign.xml targetDirectory=${build.dir}/docs/design/
+       ${xdocs.dir}/sources/xalandesign.xml ${xdocs.style}"/>
+     </java>
+@@ -1490,6 +1509,7 @@
+     <java fork="yes" 
+           classname="${xalan.cmdline.class}"
+           classpathref="docs.class.path" >
++      <jvmarg value="-Djava.awt.headless=true"/>
+       <arg line="-xsl ${xdocs.dir}/sources/xalan-collate.xsl 
+                  -out xdocs/sources/xalan/xalan-collate.xml"/>
+     </java>
+@@ -1499,6 +1519,7 @@
+     <java fork="yes" 
+           classname="${xalan.cmdline.class}"
+           classpathref="docs.class.path" >
++      <jvmarg value="-Djava.awt.headless=true"/>
+       <arg line="-in  ${xdocs.dir}/sources/xalan/xalan-collate.xml
+                  -param resourceFile '../../sources/xalan/resources.xml'
+                  -param project ${Name-in-docs}      
+@@ -1510,6 +1531,7 @@
+     <java fork="yes" 
+           classname="org.apache.fop.apps.CommandLine"
+       classpath="${java.class.path}:${build.xalan.jar}:${bin.dir}/fop.jar:${bin.dir}/w3c.jar">
++      <jvmarg value="-Djava.awt.headless=true"/>
+       <arg line="${build.docs}/xalan-collate.fo build/docs/xalan.pdf"/>
+     </java>
+   </target>
+@@ -1536,6 +1558,7 @@
+    <java fork="yes" 
+          classname="${doc.generator}" 
+          classpathref="docs.class.path" >
++      <jvmarg value="-Djava.awt.headless=true"/>
+       <arg line="targetDirectory=${build.docs}/xsltc ${xdocs.dir}/sources/xsltc.xml ${xdocs.style}"/>
+     </java>	 
+     <copy todir="${build.docs}/xsltc" 
+@@ -1695,7 +1718,7 @@
+          use="true"
+          windowtitle="${Name-in-docs} Serializer ${impl.version}" 
+          doctitle="${Name-in-docs} Serializer ${impl.version}"
+-         bottom="Copyright &#169; ${year} Apache XML Project. All Rights Reserved.">
++         bottom="Copyright ${year} Apache XML Project. All Rights Reserved.">
+           <classpath refid="docs.class.path" />
+           <taglet name="xalan2jtaglet.XSLUsageTag" path="${taglet.jar}"/>
+           <group title="Serializer" packages="org.apache.xml.serialize*"/>
+@@ -1713,7 +1736,7 @@
+          use="true"
+          windowtitle="${Name-in-docs} Serializer ${impl.version}" 
+          doctitle="${Name-in-docs} Serializer ${impl.version}"
+-         bottom="Copyright &#169; ${year} Apache XML Project. All Rights Reserved.">
++         bottom="Copyright ${year} Apache XML Project. All Rights Reserved.">
+           <classpath refid="docs.class.path" />
+           <doclet name="xalanjdoc.Standard" path="${doclet.jar}">
+             <param name="-d" value="${build.apidocs}"/>

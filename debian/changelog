@@ -1,0 +1,335 @@
+libxalan2-java (2.7.1-9) unstable; urgency=high
+
+  * Team upload.
+  * Fix CVE-2014-0107: Strengthen the secure processing mode by disabling
+    external general entities, foreign attributes and access to the system
+    properties. This could be exploited to execute arbitrary code remotely.
+    (Closes: #742577)
+  * debian/control:
+    - Standards-Version updated to 3.9.5 (no changes)
+    - Use canonical URLs for the Vcs-* fields
+    - Updated the Homepage field
+    - Removed the duplicate Section fields
+  * Switch to debhelper level 9
+  * debian/rules: Improved the clean target
+
+ -- Emmanuel Bourg <ebourg@apache.org>  Tue, 25 Mar 2014 15:22:35 +0100
+
+libxalan2-java (2.7.1-8) unstable; urgency=low
+
+  [ Miguel Landaeta ]
+  * Team upload.
+  * Remove Michael Koch from Uploaders list.
+    Thanks for the work on this package. (Closes: #654100).
+  * Ensure backwards compatible bytecode is build (LP: #1049794):
+    - d/ant.properties: Specify source/target = 1.5 when compiling
+      Java source code. Thanks to James Page for the patch. (Closes: #688208).
+
+  [ tony mancill ]
+  * Bump Standards-Version to 3.9.4. No changes were required.
+
+ -- tony mancill <tmancill@debian.org>  Wed, 29 May 2013 20:57:50 -0700
+
+libxalan2-java (2.7.1-7) unstable; urgency=low
+
+  [Jakub Adam]
+  * Add OSGi metadata to jar manifest
+  * Add javahelper to Build-Depends
+  * Add Jakub Adam to Uploaders.
+  * Require libstylebook-java (>> 1.0~b3~svn20061109-4) in Build-Depends
+    because of FTBFS with this version.
+
+  [tony mancill]
+  * Drop recommends on -gcj packages.  (Closes: #651047)
+    - Thanks to Martin Pitt.
+  * Update Vcs-Svn URL.
+  * Bump standards version to 3.9.2 (no changes).
+
+ -- Jakub Adam <jakub.adam@ktknet.cz>  Sat, 26 Nov 2011 21:10:08 +0100
+
+libxalan2-java (2.7.1-6) unstable; urgency=low
+
+  * Team upload
+  * Do no longer build the *-gcj packages.
+  * Remove Arnaud from Uploaders list.
+  * Switch to source format 3.0.
+
+ -- Torsten Werner <twerner@debian.org>  Wed, 17 Aug 2011 18:01:33 +0200
+
+libxalan2-java (2.7.1-5) unstable; urgency=low
+
+  * Upload to unstable.
+
+ -- Torsten Werner <twerner@debian.org>  Sun, 09 Aug 2009 12:44:05 +0200
+
+libxalan2-java (2.7.1-4) experimental; urgency=low
+
+  * Bump up Standards-Version to 3.8.2
+  * Move api documentation to /usr/share/doc/libxalan2-java/api
+  * Change section to java for all Java binary packages
+  * Install serializer.jar in /usr/share/java as it was
+    done in 2.7.1-2
+  * Migrate the patch to quilt and update it
+  * Remove JLex.jar from the source tarball and use the Debian
+    version for the build.
+  * Include the dependent jars (java_cup, JLex, bcel) from the
+    Debian distribution into xalan.jar
+
+ -- Ludovic Claude <ludovic.claude@laposte.net>  Mon, 13 Jul 2009 23:43:51 +0100
+
+libxalan2-java (2.7.1-3) experimental; urgency=low
+
+  * Change section to java, bump up Standards-Version to 3.8.1
+  * Remove the link from /usr/share/java/jaxp-1.3.jar to
+    /usr/share/java/xml-apis.jar as it is better to add it to the
+    libjaxp-1.3-java package.
+  * Add the Maven POM to the package,
+  * Add a Build-Depends dependency on maven-repo-helper
+  * Use mh_installpom and mh_installjar to install the POM and the jar to the
+    Maven repository
+  * Add ${misc:Depends} to Depends to clear Lintian warnings
+  * Remove full text of Apache 2 license from copyright
+
+ -- Ludovic Claude <ludovic.claude@laposte.net>  Fri, 08 May 2009 13:42:36 +0100
+
+libxalan2-java (2.7.1-2) unstable; urgency=low
+
+  * Build-Depends on default-jdk-builddep. Closes: #477893
+  * Clarified debian/copyright.
+  * Don't use '-1' in Build-Depends.
+  * Updated watch file to match upstream correctly.
+
+ -- Michael Koch <konqueror@gmx.de>  Sun, 27 Apr 2008 10:20:03 -0100
+
+libxalan2-java (2.7.1-1) unstable; urgency=low
+
+  * New upstream release.
+  * Fixed path to xmlParserAPIs.jar in debian/ant.properties.
+  * Added Homepage field.
+  * Renamed XS-Vcs-Svn fielt to Vcs-Svn and XS-Vcs-Browse to Vcs-Browser.
+  * Updated Standards-Version to 3.7.3.
+  * Added myself to Uploaders.
+
+ -- Michael Koch <konqueror@gmx.de>  Tue, 01 Jan 2008 14:33:39 +0100
+
+libxalan2-java (2.7.0-5) unstable; urgency=low
+
+  * debian/control: removed Stefan Gybas, Wolfgang Baer and Jeroen van
+    Wolffelaar from uploaders.
+  * generate the doc with stylebook (closes: #402556).
+
+ -- Arnaud Vandyck <avdyk@debian.org>  Mon, 16 Jul 2007 11:07:20 +0200
+
+libxalan2-java (2.7.0-4) unstable; urgency=medium
+
+  * libxalan2-java-gcj: Depend on libjaxp1.3-java. Closes: #408729.
+
+ -- Matthias Klose <doko@debian.org>  Wed, 14 Feb 2007 03:07:11 +0100
+
+libxalan2-java (2.7.0-3) unstable; urgency=low
+
+  * Merge from Ubuntu:
+    - build libxalan2-java-gcj and libxsltc-java-gcj packages.
+
+ -- Matthias Klose <doko@debian.org>  Thu,  4 Jan 2007 08:48:22 +0100
+
+libxalan2-java (2.7.0-2) UNRELEASED; urgency=low
+
+  [ Arnaud Vandyck ]
+  * debian/watch: added
+
+  [ Marcus Better ]
+  * Remove dangling index.html symlink until we can build proper HTML
+    documentation. (Closes: #402529)
+  * debian/control: Add XS-Vcs-* fields and Homepage lines.
+
+ -- Marcus Better <marcus@better.se>  Mon, 11 Dec 2006 10:57:00 +0100
+
+libxalan2-java (2.7.0-1) unstable; urgency=low
+
+  * debian/rules: Also install serializer.jar. (Closes: #390148)
+  * debian/control: Added myself as uploader.
+  * debian/control: Changed duplicate Build-Depends-Indep to Build-Depends.
+  * Bumped compatibility level to 5.
+
+ -- Marcus Better <marcus@better.se>  Tue, 17 Oct 2006 14:27:25 +0200
+
+libxalan2-java (2.7.0-0) experimental; urgency=low
+
+  * New upstream.
+  * Standards-Version updated to 3.7.2, moved cdbs and debhelper to
+    Build-Depends.
+
+ -- Arnaud Vandyck <avdyk@debian.org>  Mon,  3 Jul 2006 13:33:15 +0200
+
+libxalan2-java (2.6.0-6) unstable; urgency=low
+
+  * kaffe compiler transition
+    + Removed build.compiler jikes setting
+    + Applied patch (02_BuildXml_Target.patch) to raise target (needed by ecj)
+  * Workaround a xml entity problem during build until resolved upstream
+    + Add fixed_characters.ent file into debian directory (we cannot patch)
+    + Add build.xml patch to copy this file into place when needed
+  * Removed Takashi from Uploaders
+  * Fixed dpkg-genchanges warning: missing Section for source files
+
+ -- Wolfgang Baer <WBaer@gmx.de>  Tue, 17 Jan 2006 12:30:34 +0100
+
+libxalan2-java (2.6.0-5) unstable; urgency=low
+
+  * libant1.6-java to ant transition
+  * Registered javadocs with doc-base
+
+ -- Wolfgang Baer <WBaer@gmx.de>  Sat, 24 Sep 2005 09:41:25 +0200
+
+libxalan2-java (2.6.0-4) unstable; urgency=low
+
+  * Upload to get .orig.tar.gz back (got lost due to #232730)
+    (Closes: #323518)
+  * Reintroduce headless-building patch to get apidocs built again (accidently
+    lost in -2)
+  * Update policy compliance to 3.6.2 (no changes needed)
+
+ -- Jeroen van Wolffelaar <jeroen@wolffelaar.nl>  Wed, 17 Aug 2005 11:55:49 +0200
+
+libxalan2-java (2.6.0-3) unstable; urgency=low
+
+  * uploaded to unstable
+  * added myself as an uploader
+
+ -- Arnaud Vandyck <avdyk@debian.org>  Wed, 15 Jun 2005 11:03:03 +0200
+
+libxalan2-java (2.6.0-2) experimental; urgency=low
+
+  * Build with kaffe / jikes / gjdoc
+  * Move to main - together with libbsf-java (depending on each other)
+    (closes: #306633) as non-free JDKs are no longer needed
+  * Adjusted build dependencies:
+    + libant1.6-java to versioned dependency >= 1.6.3-1
+    + added libjaxp1.2-java (needed in bootclasspath for compilation)
+      jaxp1.2.jar is added to the ant.properties for correct bootclasspath
+    + added kaffe (>= 2:1.1.5-1) needed for build
+  * Disabled the transformation of the manual until kaffe's cairo
+    Graphics2D backend will be activated - see README.Debian (added)
+  * Don't ship built samples.jar in doc package - source is enough
+  * Changed Build-Depends to Build-Depends-Indep to fix lintian warning
+  * Patched build.xml file (01_Build_xml.patch)
+    + Added maxmemory="256m" to javadoc target
+    + Commented taglet option out - not usable with gjdoc
+
+ -- Wolfgang Baer <WBaer@gmx.de>  Sat, 19 Mar 2005 14:54:04 +0100
+
+libxalan2-java (2.6.0-1) unstable; urgency=low
+
+  * New upstream release
+  * Don't ship xml-apis.jar any longer since its contents are equal to
+    xmlParserAPIs.jar from libxerces2-java
+  * Use Xerces 2.0 Ant 1.6 during build
+  * Don't install versioned JARs in /usr/share/java since this package has
+    no API itself
+
+ -- Stefan Gybas <sgybas@debian.org>  Sun, 14 Mar 2004 18:35:28 +0100
+
+libxalan2-java (2.5.1-1) unstable; urgency=low
+
+  * New upstream release (closes: #199885)
+  * Set maintainer to Debian Java Maintainers
+  * Converted debian/rules to CDBS
+  * Standards-Version: 3.6.1
+    + Changed Build-Depends-Indep to Build-Depends
+
+ -- Stefan Gybas <sgybas@debian.org>  Fri, 17 Oct 2003 18:32:11 +0200
+
+libxalan2-java (2.5.0-1) unstable; urgency=low
+
+  * New upstream release (closes: #192631)
+  * Built using Blackdown's JDK 1.4 instead of the converted RPM from Sun
+  * Standards-Version: 3.5.10 (no changes required)
+
+ -- Stefan Gybas <sgybas@debian.org>  Mon, 19 May 2003 17:36:25 +0200
+
+libxalan2-java (2.4.1-1) unstable; urgency=low
+
+  * New upstream release
+  * Standards-Version: 3.5.8 (no changes required)
+
+ -- Stefan Gybas <sgybas@debian.org>  Mon, 27 Jan 2003 15:18:18 +0100
+
+libxalan2-java (2.4.0-1) unstable; urgency=low
+
+  * New upstream release
+  * Build with the latest Ant version
+  * Build with debhelper >= 4.1.0 to get rid of /usr/doc compatibility
+    symlinks
+  * Standards-Version: 3.5.7
+
+ -- Stefan Gybas <sgybas@debian.org>  Wed, 18 Sep 2002 13:10:14 +0200
+
+libxalan2-java (2.3.99D1-2) unstable; urgency=low
+
+  * Build XSLTC and put the JAR in the new libxsltc-java package. Thanks to
+    Takashi Okamoto for updating his libbcel-java package!
+  * Drop the libxalan2-java-servlet package, the sources for the servlet
+    classes and the compiled examples are now included in libxalan2-java-doc.
+  * Update package descriptions
+  * Reformatted the previous changelog entry to a maximum of 79 characters per
+    line.
+
+ -- Stefan Gybas <sgybas@debian.org>  Wed, 10 Jul 2002 15:42:03 +0200
+
+libxalan2-java (2.3.99D1-1) unstable; urgency=low
+
+  * New maintainer
+  * New upstream release: 2.4.D1
+  * Include missing classes from jaxax.xml.transform in xml-apis.jar like
+    upstream does (closes: #145649)
+    This is only a temporary solution: The classes from xml-apis.jar have been
+    moved into a separate project at xml.apache.org so they should be built
+    from a separate Debian package in main.
+  * Build the package with Xerces-J 2.0 like upstream does
+  * Use JDK 1.4 to build the package so we can create the HTML documentation
+    without the need for an X11 display
+  * Use debhelper V4
+  * Standards-Version: 3.5.6 (no changes required)
+  * Add build dependency on libregexp-java, libbcel-java, jlex and cup for
+    XSLTC
+  * Correct dependencies of the binary packages
+  * Remove emacs settings from changelog
+  * Include the generated HTML documentation in libxalan2-java-doc and remove
+    the compiled examples from there
+  * XSLTC is not yet built because is requires a newer version of
+    libbcel-java. Its documentation is already included in the
+    libxalan2-java-doc packages, however.
+
+ -- Stefan Gybas <sgybas@debian.org>  Wed,  3 Jul 2002 17:05:17 +0200
+
+libxalan2-java (2.3.1-1) unstable; urgency=low
+
+  * New upstream release.
+  * By some strange reason the max kellerman fixes was not uploaded
+    but now it really should be available, closes: #99413.
+
+ -- Ola Lundqvist <opal@debian.org>  Tue, 19 Mar 2002 21:59:37 +0100
+
+libxalan2-java (2.1.0-2) unstable; urgency=low
+
+  * added java2-runtime to Depends line.
+  * xalanj1compat.jar now goes into package libxalan2-java-compat.
+
+ -- Max Kellermann <max.kellermann@epost.de>  Sat, 15 Dec 2001 22:45:22 +0100
+
+libxalan2-java (2.1.0-1) unstable; urgency=low
+
+  * New upstream release
+  * Fixed broken symlink, closes: #99413.
+  * New binary package lib-xalan-java-servlet
+  * Calls ant directly instead of build.sh
+  * Updated dependencies
+
+ -- Max Kellermann <max.kellermann@epost.de>  Wed,  7 Nov 2001 19:25:45 +0100
+
+libxalan2-java (2.0.1-1) unstable; urgency=low
+
+  * Initial Release, closes: #90452.
+
+ -- Ola Lundqvist <opal@debian.org>  Mon, 16 Apr 2001 10:43:37 +0200

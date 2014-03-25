@@ -1,0 +1,3 @@
+debian/xalan.pom --no-parent
+debian/serializer.pom --no-parent
+

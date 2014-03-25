@@ -1,0 +1,59 @@
+Source: libxalan2-java
+Section: java
+Priority: optional
+Maintainer: Debian Java Maintainers <pkg-java-maintainers@lists.alioth.debian.org>
+Uploaders: Marcus Better <marcus@better.se>,
+           Matthias Klose <doko@ubuntu.com>,
+           Jakub Adam <jakub.adam@ktknet.cz>
+Build-Depends: ant (>= 1.6.3),
+               cdbs (>= 0.4.8),
+               cup,
+               debhelper (>= 9),
+               default-jdk,
+               javahelper,
+               jlex,
+               libbcel-java (>= 5.0),
+               libbsf-java,
+               libjaxp1.3-java,
+               libregexp-java,
+               libstylebook-java (>> 1.0~b3~svn20061109-4),
+               libxerces2-java (>= 2.8.0),
+               maven-repo-helper
+Standards-Version: 3.9.5
+Vcs-Svn: svn://anonscm.debian.org/pkg-java/trunk/libxalan2-java
+Vcs-Browser: http://anonscm.debian.org/viewvc/pkg-java/trunk/libxalan2-java/
+Homepage: http://xalan.apache.org/xalan-j/
+
+Package: libxalan2-java
+Architecture: all
+Depends: ${misc:Depends}, libjaxp1.3-java, libxerces2-java (>= 2.8.0)
+Suggests: libxalan2-java-doc, libbsf-java, libxsltc-java
+Description: XSL Transformations (XSLT) processor in Java
+ Xalan-Java is an XSLT processor for transforming XML documents into HTML,
+ text, or other XML document types. It implements the W3C Recommendations for
+ XSL Transformations (XSLT) and the XML Path Language (XPath). It can be used
+ from the command line, in an applet or a servlet, or as a module in other
+ programs.
+
+Package: libxsltc-java
+Architecture: all
+Depends: ${misc:Depends}, libxalan2-java, libregexp-java, libbcel-java (>= 5.0), jlex, cup
+Description: XSL Transformations (XSLT) compiler from Xalan-Java
+ XSLTC provides a compiler and a runtime processor. Use the compiler to
+ compile an XSL stylesheet into a translet (i.e. a set of Java classes).
+ Use the runtime processor to apply the translet to an XML document and
+ perform a transformation. XSLTC is part of the Xalan-Java project.
+
+Package: libxalan2-java-doc
+Architecture: all
+Depends: ${misc:Depends}
+Section: doc
+Description: Documentation and examples for the Xalan-Java XSLT processor
+ Xalan-Java is an XSLT processor for transforming XML documents into HTML,
+ text, or other XML document types. It implements the W3C Recommendations for
+ XSL Transformations (XSLT) and the XML Path Language (XPath). It can be used
+ from the command line, in an applet or a servlet, or as a module in other
+ programs.
+ .
+ This package contains documentation in HTML format and some Java source
+ code examples.

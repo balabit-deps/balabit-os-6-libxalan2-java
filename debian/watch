@@ -1,0 +1,3 @@
+version=3
+opts=uversionmangle=s/_/./g \
+	http://www.apache.org/dist/xml/xalan-j/source/ xalan-j_?([\d+_]+|\d+)-src\.tar.* debian debian/orig-tar.sh
